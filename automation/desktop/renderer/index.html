@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' file: data:; script-src 'self' 'unsafe-inline';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Channel Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>Channel Dashboard</h1>
+      <div class="header-actions">
+        <button id="btnHelp" title="Keyboard Shortcuts">⌨️ Help</button>
+        <button id="btnCreateChannel">🎬 Create Channel</button>
+        <button id="btnRefresh">Refresh</button>
+        <button id="btnBuildDash">Build Dashboard</button>
+        <button id="btnOpenDash">Open Dashboard</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="dashboard">Dashboard</button>
+      <button class="tab" data-tab="editor" style="display:none;">Editor</button>
+      <button class="tab" data-tab="create">Create</button>
+    </nav>
+
+    <section id="tab-dashboard" class="tab-panel active">
+      <div class="summary">
+        <div class="metric"><div class="num" id="countVideos">0</div><div class="label">Videos</div></div>
+        <div class="metric"><div class="num" id="countShorts">0</div><div class="label">Shorts</div></div>
+        <div class="metric"><div class="num" id="countPublished">0</div><div class="label">Published</div></div>
+        <div class="metric"><div class="num" id="countEditing">0</div><div class="label">Editing</div></div>
+      </div>
+
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="🔍 Search by title, topic, or status..." />
+        <select id="filterType">
+          <option value="all">All Types</option>
+          <option value="video">Videos Only</option>
+          <option value="short">Shorts Only</option>
+        </select>
+        <select id="filterStatus">
+          <option value="all">All Status</option>
+          <option value="draft">Draft</option>
+          <option value="filmed">Filmed</option>
+          <option value="editing">Editing</option>
+          <option value="thumbnail">Thumbnail</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="published">Published</option>
+        </select>
+        <select id="sortBy">
+          <option value="status-asc">📊 Status (1→6 To-Do First)</option>
+          <option value="status-desc">📊 Status (6→1 Done First)</option>
+          <option value="score-desc">⭐ Score (10→1 Best First)</option>
+          <option value="score-asc">⭐ Score (1→10 Worst First)</option>
+          <option value="title-asc">📝 Title (A→Z)</option>
+          <option value="title-desc">📝 Title (Z→A)</option>
+          <option value="created-desc">📅 Created (Newest First)</option>
+          <option value="created-asc">📅 Created (Oldest First)</option>
+          <option value="publish-desc">🚀 Publish Date (Newest First)</option>
+          <option value="publish-asc">🚀 Publish Date (Oldest First)</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th style="width:80px;">Type</th>
+              <th style="width:90px;">Thumb</th>
+              <th>Title</th>
+              <th style="width:110px;">Status</th>
+              <th style="width:70px;">⭐ Score</th>
+              <th style="width:150px;">Topic</th>
+              <th style="width:110px;">📅 Created</th>
+              <th style="width:110px;">🚀 Publish</th>
+              <th style="width:180px;">Social</th>
+              <th style="width:100px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="gridBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-editor" class="tab-panel">
+      <div class="editor-header">
+        <button id="btnBackToDash">← Back to Dashboard</button>
+        <div class="editor-title-section">
+          <h2 id="editorTitle">Edit Package</h2>
+          <div class="editor-slug" id="editorSlug"></div>
+        </div>
+        <button id="btnOpenFolder">Open Folder</button>
+      </div>
+
+      <div class="editor-sections">
+        <!-- Main Content -->
+        <div class="editor-section main-content">
+          <h3>📝 Main Content</h3>
+          <div class="editor-file">
+            <label>Title</label>
+            <input type="text" id="editTitle" placeholder="Enter the title of your content" />
+          </div>
+          <div class="editor-file">
+            <label id="lblBullets">Script / Bullets</label>
+            <textarea id="editBullets" rows="15" placeholder="Write your script or bullet points here..."></textarea>
+          </div>
+          <div class="editor-file">
+            <label>Thumbnail</label>
+            <div class="thumbnail-upload">
+              <img id="thumbnailPreview" src="" alt="No thumbnail" />
+              <input type="file" id="thumbnailInput" accept="image/*" style="display:none;" />
+              <div class="thumbnail-actions">
+                <button id="btnChangeThumbnail" type="button">📤 Change Thumbnail</button>
+                <button id="btnDeleteThumbnail" type="button" class="btn-delete">🗑️ Delete Thumbnail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description & Tags -->
+        <div class="editor-section">
+          <h3>🎯 Publishing Details</h3>
+          <div class="editor-file">
+            <label>Description</label>
+            <textarea id="editDescription" rows="8" placeholder="YouTube description or caption..."></textarea>
+          </div>
+          <div class="editor-file">
+            <label id="lblTags">Tags / Hashtags</label>
+            <textarea id="editTags" rows="3" placeholder="tag1, tag2, tag3 or #hashtag1 #hashtag2"></textarea>
+          </div>
+          <div class="editor-file">
+            <label>📅 Created Date (Idea/Planning)</label>
+            <input type="date" id="editCreatedDate" />
+          </div>
+          <div class="editor-file">
+            <label>🚀 Publish Date (Scheduled/Published)</label>
+            <input type="date" id="editPublishDate" />
+          </div>
+          <div class="editor-file">
+            <label>⭐ Idea Score (1-10)</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <input type="range" id="editScore" min="1" max="10" value="5" style="flex:1;" />
+              <div id="scoreDisplay" style="font-size:18px;font-weight:700;min-width:60px;text-align:center;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,0.8);">5</div>
+            </div>
+            <div style="font-size:11px;color:#6b7280;margin-top:4px;">Rate the quality/potential of this idea (1=Poor, 10=Excellent)</div>
+          </div>
+          <div class="editor-file" id="chaptersBlock">
+            <label>Chapters (Video Only)</label>
+            <textarea id="editChapters" rows="5" placeholder="00:00 Intro&#10;01:30 Main Topic&#10;05:00 Conclusion"></textarea>
+          </div>
+        </div>
+
+        <!-- Visual & Promotion -->
+        <div class="editor-section">
+          <h3>🎨 Visual & Promotion</h3>
+          <div class="editor-file">
+            <label>Thumbnail Brief</label>
+            <textarea id="editThumbnailBrief" rows="5" placeholder="Describe the thumbnail concept..."></textarea>
+          </div>
+          <div class="editor-file" id="communityBlock">
+            <label>Community Post (Video Only)</label>
+            <textarea id="editCommunityPost" rows="4" placeholder="Post to announce your video..."></textarea>
+          </div>
+        </div>
+
+        <!-- Shorts Ideas & Checklist -->
+        <div class="editor-section" id="videoExtrasBlock">
+          <h3>💡 Extras (Video Only)</h3>
+          <div class="editor-file" id="shortsIdeasBlock">
+            <label>Shorts Ideas</label>
+            <textarea id="editShortsIdeas" rows="4" placeholder="Ideas to extract shorts from this video..."></textarea>
+          </div>
+          <div class="editor-file" id="checklistBlock">
+            <label>Checklist</label>
+            <div id="checklistContainer" class="checklist-container"></div>
+            <button type="button" id="btnAddChecklistItem" class="btn-add-item">+ Add Task</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <button id="btnSaveAll">💾 Save All Changes</button>
+      </div>
+    </section>
+
+    <section id="tab-create" class="tab-panel">
+      <div class="form">
+        <div class="field">
+          <label>Type</label>
+          <select id="createType">
+            <option value="video">Video</option>
+            <option value="short">Short</option>
+          </select>
+        </div>
+        <div class="field"><label>Title</label><input type="text" id="createTitle" placeholder="Why I stopped chasing..." /></div>
+        <div class="field"><label>Primary Keyword (optional)</label><input type="text" id="createPK" /></div>
+        <div class="field"><label>Topic</label><input type="text" id="createTopic" value="Reinvention/Travel" /></div>
+        <div class="field video-only"><label>Timezone</label><input type="text" id="createTz" value="ET" /></div>
+        <div class="actions"><button id="btnCreate">Create Package</button></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

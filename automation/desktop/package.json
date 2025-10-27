@@ -1,0 +1,38 @@
+{
+  "name": "youtubator",
+  "productName": "Youtubator",
+  "version": "0.1.0",
+  "description": "YouTube Channel Control Panel - Desktop (Electron)",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac",
+    "build-dmg": "electron-builder --mac dmg"
+  },
+  "build": {
+    "appId": "com.youtubator.app",
+    "productName": "Youtubator",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "dmg": {
+      "title": "Youtubator",
+      "icon": "assets/icon.icns"
+    },
+    "files": [
+      "**/*",
+      "!assets/icon.png",
+      "!assets/build-icon.sh"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
