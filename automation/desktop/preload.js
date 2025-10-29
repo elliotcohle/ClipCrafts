@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('ChannelAPI', {
   savePackageFile: (pkgPath, fileName, content) => ipcRenderer.invoke('savePackageFile', pkgPath, fileName, content),
   updateMetaDates: (pkgPath, createdDate, publishDate) => ipcRenderer.invoke('updateMetaDates', pkgPath, createdDate, publishDate),
   updateScore: (pkgPath, score) => ipcRenderer.invoke('updateScore', pkgPath, score),
+  updateManualOrder: (items) => ipcRenderer.invoke('updateManualOrder', items),
   buildDashboard: () => ipcRenderer.invoke('buildDashboard'),
   openDashboard: () => ipcRenderer.invoke('openDashboard'),
   createPackage: (payload) => ipcRenderer.invoke('createPackage', payload),

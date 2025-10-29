@@ -182,7 +182,8 @@ function listPackages() {
         social: meta.social,
         createdDate: meta.createdDate || '',
         publishDate: meta.publishDate || '',
-        score: meta.score || 5
+        score: meta.score || 5,
+        manualOrder: meta.manualOrder || 999999
       });
     }
   }
@@ -290,6 +291,18 @@ ipcMain.handle('updateScore', (e, pkgPath, score) => {
     m.updatedAt = new Date().toISOString();
     return m;
   });
+  return true;
+});
+
+ipcMain.handle('updateManualOrder', (e, items) => {
+  // items is an array of {path, type, manualOrder}
+  for (const item of items) {
+    writeMeta(item.path, item.type, (m) => {
+      m.manualOrder = item.manualOrder;
+      m.updatedAt = new Date().toISOString();
+      return m;
+    });
+  }
   return true;
 });
 

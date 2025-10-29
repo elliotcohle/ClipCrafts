@@ -97,8 +97,13 @@ function filterItems() {
 function sortItems(items) {
   const sortBy = $('#sortBy').value;
   
-  // Don't sort if manual mode is selected
+  // In manual mode, sort by manualOrder
   if (sortBy === 'manual') {
+    items.sort((a, b) => {
+      const orderA = a.manualOrder !== undefined ? a.manualOrder : 999999;
+      const orderB = b.manualOrder !== undefined ? b.manualOrder : 999999;
+      return orderA - orderB;
+    });
     return;
   }
   
@@ -234,8 +239,18 @@ function typeBadge(type) {
 function renderGrid(items) {
   const tbody = $('#gridBody');
   tbody.innerHTML = '';
+  const sortBy = $('#sortBy').value;
+  const isManualMode = sortBy === 'manual';
+  
   for (const it of items) {
     const tr = document.createElement('tr');
+    
+    // Make row draggable only in manual mode
+    if (isManualMode) {
+      tr.draggable = true;
+      tr.style.cursor = 'move';
+    }
+    
     const thumbHTML = it.thumb ? `<img class="thumb" src="${it.thumb}" />` : '<div class="thumb">No Image</div>';
     
     // Format dates
@@ -257,6 +272,46 @@ function renderGrid(items) {
         <button class="btnDelete btn-delete-content">🗑️ Delete</button>
       </td>
     `;
+    
+    // Store item data on the row
+    tr.dataset.itemPath = it.path;
+    tr.dataset.itemType = it.type;
+    
+    // Drag & Drop handlers for manual mode
+    if (isManualMode) {
+      tr.addEventListener('dragstart', (e) => {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', tr.innerHTML);
+        tr.classList.add('dragging');
+      });
+      
+      tr.addEventListener('dragend', () => {
+        tr.classList.remove('dragging');
+      });
+      
+      tr.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        const dragging = tbody.querySelector('.dragging');
+        if (dragging && dragging !== tr) {
+          const rect = tr.getBoundingClientRect();
+          const midpoint = rect.top + rect.height / 2;
+          
+          if (e.clientY < midpoint) {
+            tbody.insertBefore(dragging, tr);
+          } else {
+            tbody.insertBefore(dragging, tr.nextSibling);
+          }
+        }
+      });
+      
+      tr.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        saveManualOrder();
+      });
+    }
     
     // Wire Edit button
     tr.querySelector('.btnEdit').addEventListener('click', async ()=>{
@@ -293,10 +348,18 @@ function renderGrid(items) {
 function renderCards(items) {
   const container = $('#gridView');
   container.innerHTML = '';
+  const sortBy = $('#sortBy').value;
+  const isManualMode = sortBy === 'manual';
   
   for (const it of items) {
     const card = document.createElement('div');
     card.className = 'content-card';
+    
+    // Make card draggable only in manual mode
+    if (isManualMode) {
+      card.draggable = true;
+      card.style.cursor = 'move';
+    }
     
     // Format dates
     const createdDisplay = it.createdDate ? formatDate(it.createdDate) : '—';
@@ -327,6 +390,46 @@ function renderCards(items) {
         </div>
       </div>
     `;
+    
+    // Store item data on the card
+    card.dataset.itemPath = it.path;
+    card.dataset.itemType = it.type;
+    
+    // Drag & Drop handlers for manual mode
+    if (isManualMode) {
+      card.addEventListener('dragstart', (e) => {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', card.innerHTML);
+        card.classList.add('dragging');
+      });
+      
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+      });
+      
+      card.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        const dragging = container.querySelector('.dragging');
+        if (dragging && dragging !== card) {
+          const rect = card.getBoundingClientRect();
+          const midpoint = rect.left + rect.width / 2;
+          
+          if (e.clientX < midpoint) {
+            container.insertBefore(dragging, card);
+          } else {
+            container.insertBefore(dragging, card.nextSibling);
+          }
+        }
+      });
+      
+      card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        saveManualOrder();
+      });
+    }
     
     // Wire Edit button
     card.querySelector('.btnEdit').addEventListener('click', async () => {
@@ -361,6 +464,34 @@ function renderCards(items) {
     });
     
     container.appendChild(card);
+  }
+}
+
+async function saveManualOrder() {
+  // Get the current order from the DOM
+  const sortBy = $('#sortBy').value;
+  if (sortBy !== 'manual') return;
+  
+  let elements;
+  if (currentView === 'table') {
+    elements = Array.from($('#gridBody').children);
+  } else {
+    elements = Array.from($('#gridView').children);
+  }
+  
+  // Build array of items with their new order
+  const updates = elements.map((el, index) => ({
+    path: el.dataset.itemPath,
+    type: el.dataset.itemType,
+    manualOrder: index
+  }));
+  
+  // Save to backend
+  try {
+    await window.ChannelAPI.updateManualOrder(updates);
+  } catch (error) {
+    console.error('Error saving manual order:', error);
+    alert('Failed to save order. Please try again.');
   }
 }
 
