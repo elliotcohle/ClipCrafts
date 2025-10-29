@@ -43,7 +43,23 @@ console.log('');
 if (!fs.existsSync(nodeModulesPath)) {
   console.log('📦 Installing dependencies (first time only)...');
   console.log('   This may take 1-2 minutes...\n');
-  const install = spawn('npm', ['install'], { cwd: desktopDir, stdio: 'inherit' });
+  
+  const isWindows = os.platform() === 'win32';
+  const npmCmd = isWindows ? 'npm.cmd' : 'npm';
+  
+  const install = spawn(npmCmd, ['install'], { 
+    cwd: desktopDir, 
+    stdio: 'inherit',
+    shell: true 
+  });
+  
+  install.on('error', (err) => {
+    console.error('\n❌ Error installing dependencies:', err.message);
+    console.error('   Please try manually:');
+    console.error('   cd automation/desktop && npm install');
+    process.exit(1);
+  });
+  
   install.on('close', (code) => {
     if (code === 0) {
       console.log('\n✅ Dependencies installed successfully!');
@@ -62,7 +78,21 @@ if (!fs.existsSync(nodeModulesPath)) {
 }
 
 function launchApp() {
-  const start = spawn('npm', ['start'], { cwd: desktopDir, stdio: 'inherit' });
+  const isWindows = os.platform() === 'win32';
+  const npmCmd = isWindows ? 'npm.cmd' : 'npm';
+  
+  const start = spawn(npmCmd, ['start'], { 
+    cwd: desktopDir, 
+    stdio: 'inherit',
+    shell: true 
+  });
+  
+  start.on('error', (err) => {
+    console.error('❌ Error launching app:', err.message);
+    console.error('   Try manually: cd automation/desktop && npm start');
+    process.exit(1);
+  });
+  
   start.on('close', (code) => {
     process.exit(code || 0);
   });

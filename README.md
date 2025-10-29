@@ -5,7 +5,8 @@
 Manage your video content across YouTube, Instagram, TikTok, Twitter, LinkedIn, and Facebook.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Electron](https://img.shields.io/badge/Electron-31.0-blue.svg)](https://www.electronjs.org/)
+[![Electron](https://img.shields.io/badge/Electron-35.7-blue.svg)](https://www.electronjs.org/)
+[![Node](https://img.shields.io/badge/Node.js-14%2B-green.svg)](https://nodejs.org/)
 
 ---
 
@@ -57,7 +58,7 @@ npm start
 
 ##  Tech Stack
 
-- Electron 31.0
+- Electron 35.7
 - Node.js 14+
 - Vanilla JavaScript
 

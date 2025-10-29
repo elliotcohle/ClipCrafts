@@ -1,0 +1,31 @@
+{
+  "name": "takemachine",
+  "version": "1.0.0",
+  "description": "Content Management for Videos and Shorts - Professional multi-platform content management",
+  "main": "TakeMachine.js",
+  "scripts": {
+    "start": "node TakeMachine.js",
+    "dev": "cd automation/desktop && npm start",
+    "install-deps": "cd automation/desktop && npm install",
+    "build": "cd automation/desktop && npm run build",
+    "build-dmg": "cd automation/desktop && npm run build-dmg"
+  },
+  "keywords": [
+    "youtube",
+    "content-management",
+    "video",
+    "shorts",
+    "tiktok",
+    "instagram",
+    "social-media"
+  ],
+  "author": "TakeMachine",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elliotcohle/TakeMachine.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
