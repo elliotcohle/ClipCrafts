@@ -1,45 +1,82 @@
-# 🎬 Youtubator
+# 🎬 ClipCrafts
 
-> Professional YouTube Channel Management System with Desktop App
+> **Professional Content Production Management Tool for All Platforms**  
+> Streamline your video content workflow for YouTube, TikTok, Instagram, and more.
 
-A powerful, cross-platform desktop application built with Electron for managing your YouTube content workflow - from ideation to publication.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Electron](https://img.shields.io/badge/Electron-31.0-blue.svg)](https://www.electronjs.org/)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/elliotcohle/clipcrafts)
 
-![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)
-![Electron](https://img.shields.io/badge/Electron-31.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+**ClipCrafts** is a powerful desktop application designed for content creators, YouTubers, TikTokers, and video producers who need to manage multiple video projects efficiently. Track your entire production pipeline from draft to published with an intuitive, modern interface.
 
-## ✨ Features
+## 🌟 Why ClipCrafts?
 
-- 📹 **Video Management** - Organize full-length videos with scripts, titles, descriptions, and tags
-- 🎞️ **Shorts Management** - Manage YouTube Shorts with captions and hashtags
-- 📊 **Status Tracking** - Track content through workflow: Draft → Filmed → Editing → Thumbnail → Scheduled → Published
-- 🌐 **Social Media Integration** - Track distribution across YouTube, Instagram, TikTok, Twitter, and Facebook
-- 🎨 **Thumbnail Planning** - Create and manage thumbnail briefs
-- 📝 **Content Organization** - Structured folders for raw footage, voiceovers, and exports
-- 📈 **Dashboard** - Auto-generated markdown dashboard of all your content
-- ⭐ **Content Scoring** - Rate and prioritize your content ideas
+Perfect for:
+- 🎥 **YouTubers** managing multiple video projects
+- 📱 **Content Creators** posting across platforms (TikTok, Instagram, YouTube Shorts)
+- 🎬 **Video Producers** tracking production workflows
+- 📊 **Social Media Managers** organizing video content calendars
+- ✍️ **Creators** who want to stay organized and productive
+
+
+
+## ✨ Key Features
+
+### 🎯 Content Management
+- 📹 **Video & Shorts Management** - Organize full-length videos and short-form content
+- 🗂️ **Multi-Platform Support** - YouTube, TikTok, Instagram, Twitter, Facebook tracking
+- 📝 **Complete Metadata** - Titles, descriptions, tags, thumbnails, chapters, and more
+
+### � Modern Interface
+- 📊 **Dual View Modes** - Switch between table and visual card/grid layouts
+- 🌓 **Dark/Light Themes** - Eye-friendly modes with persistent preferences
+- 🎨 **Modern Design** - Gradient-based UI with smooth animations
+- ⚡ **Fast & Responsive** - Built with performance in mind
+
+### 📈 Workflow Tracking
+- 🔄 **Status Pipeline** - Draft → Filmed → Editing → Thumbnail → Scheduled → Published
+- ⭐ **Content Scoring** - Rate and prioritize your best ideas (1-10 scale)
 - 📅 **Date Tracking** - Track creation and publish dates
+- 🎯 **Topic Organization** - Categorize content by topic and keywords
+
+### 🛠️ Power Features
+- 🔍 **Advanced Search & Filters** - Find content instantly by title, status, or type
+- ⌨️ **Keyboard Shortcuts** - Speed up your workflow
+- 📊 **Report Generation** - Export Markdown dashboards
+- 🗑️ **Safe Deletion** - Double confirmation to prevent accidents
+- � **Auto-Save** - Never lose your work
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- **Node.js 14+** ([download here](https://nodejs.org/))
-
 ### Installation
 
-**macOS:**
+1. **Clone the repository:**
 ```bash
-# Download and install
-open Youtubator-0.1.0-arm64.dmg
-
-# Or run from source
-./Youtubator.command
+git clone https://github.com/elliotcohle/clipcrafts.git
+cd clipcrafts
 ```
+
+2. **Install dependencies:**
+```bash
+cd automation/desktop
+npm install
+```
+
+3. **Launch the app:**
+```bash
+npm start
+```
+
+### Platform-Specific Launchers
 
 **Windows:**
 ```bash
 Youtubator.bat
+```
+
+**macOS:**
+```bash
+./Youtubator.command
 ```
 
 **Linux:**
@@ -47,11 +84,7 @@ Youtubator.bat
 ./Youtubator.sh
 ```
 
-### macOS Users
-
-If you encounter issues on macOS, see [MACOS_SETUP.md](MACOS_SETUP.md) for detailed setup instructions.
-
-To build the macOS app yourself, see [BUILD_MACOS_APP.md](BUILD_MACOS_APP.md).
+> 💡 **First time on macOS?** Check [MACOS_SETUP.md](MACOS_SETUP.md) for setup instructions.
 
 ## 📁 Project Structure
 
@@ -69,42 +102,84 @@ Youtubator/
 └── DASHBOARD.md         # Auto-generated content dashboard
 ```
 
-## 🎯 Workflow
+## 📖 How to Use
 
-### Creating Content
+### Creating Your First Content
 
-1. Launch Youtubator
-2. Click "New Video" or "New Short"
-3. Fill in the title and details
-4. Organize your files in the created package folder
+1. **Click "➕ Create" tab**
+2. **Select type:** Video or Short
+3. **Enter details:** Title, keywords, topic
+4. **Start creating!** Your content package is ready
 
-### Content Package Structure
+### Managing Content
 
-Each video/short gets its own folder with:
+| Action | How To |
+|--------|--------|
+| **Edit Content** | Click ✏️ Edit button |
+| **Change Status** | Click on status pill (cycles through workflow) |
+| **Rate Quality** | Use score slider (1-10) |
+| **Track Platforms** | Toggle social media icons |
+| **Delete Content** | Click 🗑️ (requires double confirmation) |
+| **Switch Views** | Use 📋 (Table) or 🔲 (Grid) buttons |
 
-**Videos:**
-- `bullets.md` - Video outline/script
-- `title.txt` - Video title
-- `description.txt` - YouTube description
-- `tags.txt` - Video tags
-- `chapters.txt` - Video chapters
-- `thumbnail_brief.md` - Thumbnail design notes
-- `community_post.txt` - Post-publish community post
-- `shorts_ideas.md` - Ideas for shorts from this video
-- `video.meta.json` - Metadata and status
-- `raw/` - Raw footage and voiceovers
+### Keyboard Shortcuts
 
-**Shorts:**
-- `script.md` - Short script
-- `title.txt` - Short title
-- `caption.txt` - Caption text
-- `hashtags.txt` - Hashtags
-- `short.meta.json` - Metadata and status
-- `raw/` - Raw footage
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + T` | Toggle dark/light mode |
+| `Ctrl/Cmd + F` | Focus search bar |
+| `Ctrl/Cmd + R` | Refresh content |
+| `Ctrl/Cmd + N` | Create new content |
+| `Ctrl/Cmd + D` | Go to dashboard |
+| `Escape` | Close editor |
 
-## 🛠️ Development
+### Production Workflow Stages
 
-### Run from Source
+1. 📝 **Draft** - Brainstorming and planning
+2. 🎬 **Filmed** - Recording completed
+3. ✂️ **Editing** - Post-production in progress
+4. 🖼️ **Thumbnail** - Creating thumbnail
+5. 📅 **Scheduled** - Ready for publication
+6. ✅ **Published** - Live on platforms
+
+## � Project Structure
+
+```
+clipcrafts/
+├── content/
+│   ├── videos/              # Video content packages
+│   └── shorts/              # Short-form content
+├── automation/
+│   └── desktop/
+│       ├── main.js          # Electron main process
+│       ├── preload.js       # IPC bridge
+│       └── renderer/        # UI files
+├── templates/               # Content templates
+└── DASHBOARD.md            # Auto-generated reports
+```
+
+### Content Package Files
+
+**Videos include:**
+- Scripts, titles, descriptions, tags
+- Chapters and thumbnail briefs
+- Community posts and shorts ideas
+- Metadata and raw footage folders
+
+**Shorts include:**
+- Scripts, captions, hashtags
+- Metadata and raw footage
+
+## 🛠️ For Developers
+
+### Tech Stack
+
+- **Electron 31.0** - Cross-platform desktop framework
+- **Node.js** - Backend runtime
+- **Vanilla JS** - No framework dependencies
+- **CSS Variables** - Dynamic theming
+
+### Development
 
 ```bash
 cd automation/desktop
@@ -112,48 +187,60 @@ npm install
 npm start
 ```
 
-### Build for Distribution
+### Building
 
-**macOS:**
 ```bash
-cd automation/desktop
-npm run build
+npm run build      # Current platform
+npm run build-all  # All platforms
 ```
 
-**All platforms:**
-```bash
-npm run build-all
-```
-
-## 📦 Building the App
-
-See platform-specific build guides:
-- [macOS Build Guide](BUILD_MACOS_APP.md)
-- [Quick Build Steps](QUICK_BUILD.md)
+See [BUILD_MACOS_APP.md](BUILD_MACOS_APP.md) and [QUICK_BUILD.md](QUICK_BUILD.md) for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! 
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🐛 Found a Bug?
+
+[Report it here](https://github.com/elliotcohle/clipcrafts/issues) - we appreciate your feedback!
 
 ## 📄 License
 
-MIT License - feel free to use this for your own YouTube channels!
+MIT License - Free to use for personal and commercial projects.
 
-## 🎬 About
+## 🌟 Star Us!
 
-Created for content creators who want a professional workflow management system for their YouTube channels.
+If ClipCrafts helps your workflow, give us a ⭐ on GitHub!
 
-**Key Benefits:**
-- ✅ Organize content in one place
-- ✅ Track progress through production pipeline
-- ✅ Never lose track of video ideas
-- ✅ Manage multi-platform distribution
-- ✅ Keep all assets organized per video
+## 🔗 Links
+
+- 🐛 [Report Bug](https://github.com/elliotcohle/clipcrafts/issues)
+- 💡 [Request Feature](https://github.com/elliotcohle/clipcrafts/issues)
+- 📚 [Documentation](https://github.com/elliotcohle/clipcrafts)
+- 💬 [Discussions](https://github.com/elliotcohle/clipcrafts/discussions)
 
 ---
 
-**Built with:** Electron, Node.js, HTML/CSS/JavaScript
+## � Perfect For
 
-**Platform:** Works on macOS, Windows, and Linux
+- **Content Creators** producing videos for multiple platforms
+- **YouTubers** managing consistent upload schedules
+- **Social Media Managers** coordinating video campaigns
+- **Video Production Teams** tracking collaborative projects
+- **Freelancers** organizing client video work
 
-Created: 2025-10-27
+## 📊 SEO Keywords
+
+video content management, youtube content planner, video production workflow, content creator tools, video project manager, youtube studio alternative, tiktok content planner, instagram reels manager, video editing workflow, content calendar for videos, youtube channel management, shorts content manager, video metadata organizer, content creator dashboard, multi-platform video manager
+
+---
+
+**Built with ❤️ for content creators worldwide**
+
+*ClipCrafts - Craft your content, streamline your workflow*
