@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Youtubator - Cross-platform launcher for YouTube Channel Desktop App */
+/* TakeMachine - Cross-platform launcher for Content Management Desktop App */
 const { spawn, execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
@@ -9,7 +9,7 @@ const desktopDir = path.join(__dirname, 'automation', 'desktop');
 const packageJsonPath = path.join(desktopDir, 'package.json');
 const nodeModulesPath = path.join(desktopDir, 'node_modules');
 
-console.log('🎬 Youtubator - YouTube Channel Control Panel');
+console.log('🎬 TakeMachine - Content Management Platform');
 console.log('📍 Platform:', os.platform(), os.arch());
 console.log('');
 

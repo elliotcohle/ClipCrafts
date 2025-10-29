@@ -1,5 +1,5 @@
 #!/bin/bash
-# Youtubator launcher for macOS
+# TakeMachine launcher for macOS
 # This script can be executed by double-clicking in Finder
 
 # Get the directory where this script is located
@@ -19,7 +19,7 @@ if ! command -v node &> /dev/null; then
 fi
 
 # Run the launcher
-node Youtubator.js
+node TakeMachine.js
 
 # Keep terminal open if there was an error
 if [ $? -ne 0 ]; then

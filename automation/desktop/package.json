@@ -1,8 +1,8 @@
 {
-  "name": "youtubator",
-  "productName": "Youtubator",
-  "version": "0.1.0",
-  "description": "YouTube Channel Control Panel - Desktop (Electron)",
+  "name": "takemachine",
+  "productName": "TakeMachine",
+  "version": "1.0.0",
+  "description": "Content Management for Videos and Shorts - Desktop Application",
   "main": "main.js",
   "type": "commonjs",
   "scripts": {
@@ -11,8 +11,8 @@
     "build-dmg": "electron-builder --mac dmg"
   },
   "build": {
-    "appId": "com.youtubator.app",
-    "productName": "Youtubator",
+    "appId": "com.takemachine.app",
+    "productName": "TakeMachine",
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "assets/icon.icns",
@@ -22,7 +22,7 @@
       ]
     },
     "dmg": {
-      "title": "Youtubator",
+      "title": "TakeMachine",
       "icon": "assets/icon.icns"
     },
     "files": [
