@@ -96,6 +96,12 @@ function filterItems() {
 
 function sortItems(items) {
   const sortBy = $('#sortBy').value;
+  
+  // Don't sort if manual mode is selected
+  if (sortBy === 'manual') {
+    return;
+  }
+  
   const statusPriority = {
     'draft': 1, 'filmed': 2, 'editing': 3,
     'thumbnail': 4, 'scheduled': 5, 'published': 6

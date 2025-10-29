@@ -1,0 +1,21 @@
+{
+  "title": "Video 1",
+  "date": "2025-10-29",
+  "slug": "video-1",
+  "topic": "Reinvention/Travel",
+  "primaryKeyword": "Keyword 1, Keyword 2",
+  "timezone": "ET",
+  "status": "published",
+  "createdDate": "2025-10-29",
+  "createdAt": "2025-10-29T10:48:41.248Z",
+  "packagePath": "D:\\Youtube\\Youtubator\\content\\videos\\video-1",
+  "score": 5,
+  "social": {
+    "youtube": false,
+    "instagram": false,
+    "tiktok": false,
+    "twitter": false,
+    "facebook": false
+  },
+  "updatedAt": "2025-10-29T10:52:14.759Z"
+}
