@@ -47,7 +47,7 @@ if (!fs.existsSync(nodeModulesPath)) {
   install.on('close', (code) => {
     if (code === 0) {
       console.log('\n✅ Dependencies installed successfully!');
-      console.log('🚀 Starting Youtubator...\n');
+      console.log('🚀 Starting TakeMachine...\n');
       launchApp();
     } else {
       console.error('\n❌ Installation failed. Please try manually:');
@@ -57,7 +57,7 @@ if (!fs.existsSync(nodeModulesPath)) {
   });
 } else {
   console.log('✅ Dependencies found');
-  console.log('🚀 Starting Youtubator...\n');
+  console.log('🚀 Starting TakeMachine...\n');
   launchApp();
 }
 

@@ -533,7 +533,7 @@ function wireHeader() {
   $('#btnCreateChannel').addEventListener('click', async () => {
     const result = await window.ChannelAPI.createChannel();
     if (result) {
-      alert(`Channel created successfully at:\n${result}\n\nRun Youtubator.bat (or .sh/.command) in that folder to start managing content.`);
+      alert(`Channel created successfully at:\n${result}\n\nRun TakeMachine.bat (or .sh/.command) in that folder to start managing content.`);
     }
   });
   

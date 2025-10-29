@@ -385,7 +385,7 @@ ipcMain.handle('createChannel', async () => {
   // Create README.md
   const readme = `# ${channelName}
 
-YouTube Channel Management System created with Youtubator.
+YouTube Channel Management System created with TakeMachine.
 
 ## Quick Start
 
@@ -395,9 +395,9 @@ YouTube Channel Management System created with Youtubator.
 ### Running the Application
 
 1. Run the launcher for your platform:
-   - **Windows**: Double-click \`Youtubator.bat\`
-   - **macOS**: Double-click \`Youtubator.command\` (or run \`./Youtubator.sh\` in Terminal)
-   - **Linux**: Run \`./Youtubator.sh\` in terminal
+   - **Windows**: Double-click \`TakeMachine.bat\`
+   - **macOS**: Double-click \`TakeMachine.command\` (or run \`./TakeMachine.sh\` in Terminal)
+   - **Linux**: Run \`./TakeMachine.sh\` in terminal
 
 2. Use the desktop app to manage your content
 
@@ -452,25 +452,25 @@ _No shorts yet_
     }
   }
   
-  // Create Youtubator.js launcher
-  const launcherContent = fs.readFileSync(path.join(projectRoot, 'Youtubator.js'), 'utf8');
-  fs.writeFileSync(path.join(channelRoot, 'Youtubator.js'), launcherContent, 'utf8');
+  // Create TakeMachine.js launcher
+  const launcherContent = fs.readFileSync(path.join(projectRoot, 'TakeMachine.js'), 'utf8');
+  fs.writeFileSync(path.join(channelRoot, 'TakeMachine.js'), launcherContent, 'utf8');
   
   // Create platform wrappers
-  const batContent = `@echo off\nnode Youtubator.js\npause\n`;
-  fs.writeFileSync(path.join(channelRoot, 'Youtubator.bat'), batContent, 'utf8');
+  const batContent = `@echo off\nnode TakeMachine.js\npause\n`;
+  fs.writeFileSync(path.join(channelRoot, 'TakeMachine.bat'), batContent, 'utf8');
   
-  const shContent = `#!/bin/bash\n# Youtubator launcher for Linux/macOS terminal\n\n# Get the directory where this script is located\nSCRIPT_DIR="$( cd "$( dirname "\${BASH_SOURCE[0]}" )" && pwd )"\n\n# Change to that directory\ncd "$SCRIPT_DIR"\n\n# Run the launcher\nnode Youtubator.js\n`;
-  fs.writeFileSync(path.join(channelRoot, 'Youtubator.sh'), shContent, 'utf8');
+  const shContent = `#!/bin/bash\n# TakeMachine launcher for Linux/macOS terminal\n\n# Get the directory where this script is located\nSCRIPT_DIR="$( cd "$( dirname "\${BASH_SOURCE[0]}" )" && pwd )"\n\n# Change to that directory\ncd "$SCRIPT_DIR"\n\n# Run the launcher\nnode TakeMachine.js\n`;
+  fs.writeFileSync(path.join(channelRoot, 'TakeMachine.sh'), shContent, 'utf8');
   
-  const commandContent = `#!/bin/bash\n# Youtubator launcher for macOS\n# This script can be executed by double-clicking in Finder\n\n# Get the directory where this script is located\nSCRIPT_DIR="$( cd "$( dirname "\${BASH_SOURCE[0]}" )" && pwd )"\n\n# Change to that directory\ncd "$SCRIPT_DIR"\n\n# Check if Node.js is installed\nif ! command -v node &> /dev/null; then\n    echo "❌ Node.js is not installed."\n    echo "Please install Node.js from https://nodejs.org/"\n    echo ""\n    echo "Press any key to exit..."\n    read -n 1\n    exit 1\nfi\n\n# Run the launcher\nnode Youtubator.js\n\n# Keep terminal open if there was an error\nif [ $? -ne 0 ]; then\n    echo ""\n    echo "Press any key to exit..."\n    read -n 1\nfi\n`;
-  fs.writeFileSync(path.join(channelRoot, 'Youtubator.command'), commandContent, 'utf8');
+  const commandContent = `#!/bin/bash\n# TakeMachine launcher for macOS\n# This script can be executed by double-clicking in Finder\n\n# Get the directory where this script is located\nSCRIPT_DIR="$( cd "$( dirname "\${BASH_SOURCE[0]}" )" && pwd )"\n\n# Change to that directory\ncd "$SCRIPT_DIR"\n\n# Check if Node.js is installed\nif ! command -v node &> /dev/null; then\n    echo "❌ Node.js is not installed."\n    echo "Please install Node.js from https://nodejs.org/"\n    echo ""\n    echo "Press any key to exit..."\n    read -n 1\n    exit 1\nfi\n\n# Run the launcher\nnode TakeMachine.js\n\n# Keep terminal open if there was an error\nif [ $? -ne 0 ]; then\n    echo ""\n    echo "Press any key to exit..."\n    read -n 1\nfi\n`;
+  fs.writeFileSync(path.join(channelRoot, 'TakeMachine.command'), commandContent, 'utf8');
   
   // Set execute permissions on Unix scripts
   if (process.platform !== 'win32') {
     try {
-      fs.chmodSync(path.join(channelRoot, 'Youtubator.sh'), 0o755);
-      fs.chmodSync(path.join(channelRoot, 'Youtubator.command'), 0o755);
+      fs.chmodSync(path.join(channelRoot, 'TakeMachine.sh'), 0o755);
+      fs.chmodSync(path.join(channelRoot, 'TakeMachine.command'), 0o755);
     } catch (e) {
       console.warn('Could not set execute permissions:', e);
     }
