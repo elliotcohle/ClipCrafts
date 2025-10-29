@@ -764,6 +764,18 @@ function getChecklistText() {
   $('#filterStatus').addEventListener('change', filterItems);
   $('#sortBy').addEventListener('change', filterItems);
   
+  // Fix for Electron paste bug - ensure inputs remain editable
+  document.addEventListener('paste', (e) => {
+    const target = e.target;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      // Force re-enable after paste
+      setTimeout(() => {
+        target.disabled = false;
+        target.focus();
+      }, 0);
+    }
+  });
+
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
     // Ctrl/Cmd + R: Refresh
