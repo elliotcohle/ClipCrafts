@@ -11,7 +11,7 @@ If you find a bug, please create an issue with:
 - Steps to reproduce
 - Expected vs actual behavior
 - Your OS and Node.js version
-- Screenshots if applicable
+- Screenshots if applicable (see [Screenshot Guidelines](screenshots/README.md))
 
 ### Suggesting Features
 
@@ -19,6 +19,7 @@ We welcome feature suggestions! Please create an issue with:
 - Clear description of the feature
 - Use case / why it would be helpful
 - Any implementation ideas you might have
+- Mockups or screenshots if relevant
 
 ### Pull Requests
 
@@ -65,9 +66,30 @@ Before submitting a PR:
 - 🐛 Bug fixes
 - 📱 Cross-platform compatibility
 - 📖 Documentation
+- 📸 Screenshots and visual documentation
 - 🌐 Internationalization
 - ⚡ Performance optimizations
 - 🧪 Testing infrastructure
+- ♿ Accessibility improvements
+
+### Contributing Screenshots
+
+Help improve our documentation with quality screenshots:
+
+1. Follow guidelines in [screenshots/README.md](screenshots/README.md)
+2. Use sample/dummy content (no unpublished work)
+3. Capture at high resolution (1920x1080+)
+4. Use light mode for consistency
+5. Name files descriptively: `feature-name.png`
+6. Update main README.md to reference new screenshots
+
+**Screenshot Ideas:**
+- Dark mode interface
+- Different workflow stages
+- Drag & drop in action
+- Filter and search features
+- Grid view layout
+- Creation modals
 
 ## Questions?
 
