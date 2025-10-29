@@ -148,6 +148,8 @@ Features we're considering for future releases:
 - 🔍 Advanced search filters
 - 📦 Batch operations
 
+**For detailed roadmap and timelines, see [ROADMAP.md](ROADMAP.md)**
+
 ## 💡 Feature Requests
 
 Have an idea? [Open an issue](https://github.com/elliotcohle/TakeMachine/issues) with:
@@ -155,6 +157,8 @@ Have an idea? [Open an issue](https://github.com/elliotcohle/TakeMachine/issues)
 - Use case and benefits
 - Any implementation ideas
 - Screenshots or mockups if applicable
+
+You can also check our [ROADMAP.md](ROADMAP.md) to see planned features and vote on priorities!
 
 ## 📸 Visual Documentation
 

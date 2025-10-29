@@ -37,6 +37,8 @@ Manage your video content across YouTube, Instagram, TikTok, Twitter, LinkedIn, 
 
 📖 **See [FEATURES.md](FEATURES.md) for complete feature list**
 
+🚀 **Check out our [ROADMAP.md](ROADMAP.md) for upcoming features**
+
 ---
 
 ##  Quick Start
@@ -163,6 +165,22 @@ TakeMachine/
 │   └── shorts/
 └── screenshots/           # Documentation images
 ```
+
+---
+
+##  Roadmap
+
+We have exciting plans for the future! Check out our detailed [ROADMAP.md](ROADMAP.md) for upcoming features:
+
+- 📅 **Google Calendar Integration** - Sync scheduled content
+- 📱 **Android & iOS Apps** - Manage content on the go
+- 📊 **Analytics Dashboard** - Track performance metrics
+- 🤝 **Team Collaboration** - Multi-user support
+- 🤖 **AI-Powered Features** - Smart content suggestions
+- 🔗 **Platform APIs** - Direct upload and scheduling
+- 💰 **Monetization Tools** - Revenue tracking
+
+[View Full Roadmap →](ROADMAP.md)
 
 ---
 
