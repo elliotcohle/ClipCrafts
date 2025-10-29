@@ -15,4 +15,5 @@ contextBridge.exposeInMainWorld('ChannelAPI', {
   createChannel: () => ipcRenderer.invoke('createChannel'),
   saveThumbnail: (pkgPath, imageData) => ipcRenderer.invoke('saveThumbnail', pkgPath, imageData),
   deleteThumbnail: (pkgPath) => ipcRenderer.invoke('deleteThumbnail', pkgPath),
+  deletePackage: (pkgPath, type) => ipcRenderer.invoke('deletePackage', pkgPath, type),
 });

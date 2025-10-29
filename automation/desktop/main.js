@@ -515,4 +515,29 @@ ipcMain.handle('deleteThumbnail', (e, pkgPath) => {
   return deleted;
 });
 
+ipcMain.handle('deletePackage', (e, pkgPath, type) => {
+  try {
+    // Verify the path exists
+    if (!fs.existsSync(pkgPath)) {
+      throw new Error('Package path does not exist');
+    }
+    
+    // Security check: ensure we're deleting from content folder
+    const normalizedPath = path.normalize(pkgPath);
+    const normalizedContent = path.normalize(contentRoot);
+    
+    if (!normalizedPath.startsWith(normalizedContent)) {
+      throw new Error('Invalid deletion path - must be within content folder');
+    }
+    
+    // Recursively delete the directory
+    fs.rmSync(pkgPath, { recursive: true, force: true });
+    
+    return { success: true, message: 'Package deleted successfully' };
+  } catch (error) {
+    console.error('Error deleting package:', error);
+    throw error;
+  }
+});
+
 

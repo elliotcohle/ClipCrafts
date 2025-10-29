@@ -10,20 +10,21 @@
 <body>
   <div class="app">
     <header class="app-header">
-      <h1>Channel Dashboard</h1>
+      <h1>🎬 Youtubator</h1>
       <div class="header-actions">
-        <button id="btnHelp" title="Keyboard Shortcuts">⌨️ Help</button>
-        <button id="btnCreateChannel">🎬 Create Channel</button>
-        <button id="btnRefresh">Refresh</button>
-        <button id="btnBuildDash">Build Dashboard</button>
-        <button id="btnOpenDash">Open Dashboard</button>
+        <button id="btnThemeToggle" data-tooltip="Switch between dark and light mode" data-tooltip-position="bottom" title="Toggle Dark/Light Mode">🌙</button>
+        <button id="btnHelp" data-tooltip="View keyboard shortcuts and help" data-tooltip-position="bottom" title="Keyboard Shortcuts">⌨️ Help</button>
+        <button id="btnCreateChannel" class="btn-secondary" data-tooltip="Create a new YouTube channel folder structure" data-tooltip-position="bottom">🎬 Create Channel</button>
+        <button id="btnRefresh" class="btn-secondary" data-tooltip="Reload all videos and shorts from disk" data-tooltip-position="bottom">🔄 Refresh</button>
+        <button id="btnBuildDash" class="btn-secondary" data-tooltip="Generate DASHBOARD.md file with content summary" data-tooltip-position="bottom">📊 Generate Report</button>
+        <button id="btnOpenDash" class="btn-secondary" data-tooltip="Open the generated DASHBOARD.md file" data-tooltip-position="bottom">📂 View Report</button>
       </div>
     </header>
 
     <nav class="tabs">
-      <button class="tab active" data-tab="dashboard">Dashboard</button>
-      <button class="tab" data-tab="editor" style="display:none;">Editor</button>
-      <button class="tab" data-tab="create">Create</button>
+      <button class="tab active" data-tab="dashboard">📊 Dashboard</button>
+      <button class="tab" data-tab="editor" style="display:none;">✏️ Editor</button>
+      <button class="tab" data-tab="create">➕ Create</button>
     </nav>
 
     <section id="tab-dashboard" class="tab-panel active">
@@ -37,18 +38,18 @@
       <div class="filters">
         <input type="text" id="searchInput" placeholder="🔍 Search by title, topic, or status..." />
         <select id="filterType">
-          <option value="all">All Types</option>
-          <option value="video">Videos Only</option>
-          <option value="short">Shorts Only</option>
+          <option value="all">📁 All Types</option>
+          <option value="video">🎥 Videos Only</option>
+          <option value="short">📱 Shorts Only</option>
         </select>
         <select id="filterStatus">
-          <option value="all">All Status</option>
-          <option value="draft">Draft</option>
-          <option value="filmed">Filmed</option>
-          <option value="editing">Editing</option>
-          <option value="thumbnail">Thumbnail</option>
-          <option value="scheduled">Scheduled</option>
-          <option value="published">Published</option>
+          <option value="all">📋 All Status</option>
+          <option value="draft">✏️ Draft</option>
+          <option value="filmed">🎬 Filmed</option>
+          <option value="editing">✂️ Editing</option>
+          <option value="thumbnail">🖼️ Thumbnail</option>
+          <option value="scheduled">📅 Scheduled</option>
+          <option value="published">✅ Published</option>
         </select>
         <select id="sortBy">
           <option value="status-asc">📊 Status (1→6 To-Do First)</option>
@@ -62,9 +63,13 @@
           <option value="publish-desc">🚀 Publish Date (Newest First)</option>
           <option value="publish-asc">🚀 Publish Date (Oldest First)</option>
         </select>
+        <div class="view-toggle">
+          <button id="viewTable" class="active" title="Table View">📋</button>
+          <button id="viewGrid" title="Grid View">🔲</button>
+        </div>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" id="tableView">
         <table class="grid">
           <thead>
             <tr>
@@ -83,6 +88,8 @@
           <tbody id="gridBody"></tbody>
         </table>
       </div>
+
+      <div class="content-grid" id="gridView" style="display:none;"></div>
     </section>
 
     <section id="tab-editor" class="tab-panel">

@@ -4,6 +4,47 @@ const $$ = sel => Array.from(document.querySelectorAll(sel));
 const statuses = ['draft','filmed','editing','thumbnail','scheduled','published'];
 let currentEditPackage = null;
 let allItems = [];
+let currentView = 'table'; // 'table' or 'grid'
+
+// Theme Management
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeButton(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeButton(newTheme);
+}
+
+function updateThemeButton(theme) {
+  const btn = $('#btnThemeToggle');
+  if (btn) {
+    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+  }
+}
+
+// View Management
+function switchView(view) {
+  currentView = view;
+  if (view === 'table') {
+    $('#tableView').style.display = 'block';
+    $('#gridView').style.display = 'none';
+    $('#viewTable').classList.add('active');
+    $('#viewGrid').classList.remove('active');
+  } else {
+    $('#tableView').style.display = 'none';
+    $('#gridView').style.display = 'grid';
+    $('#viewTable').classList.remove('active');
+    $('#viewGrid').classList.add('active');
+  }
+  filterItems(); // Re-render with current filters
+}
 
 function renderSummary(items) {
   const videos = items.filter(i=>i.type==='video');
@@ -44,7 +85,13 @@ function filterItems() {
   
   // Apply sorting
   sortItems(filtered);
-  renderGrid(filtered);
+  
+  // Render based on current view
+  if (currentView === 'table') {
+    renderGrid(filtered);
+  } else {
+    renderCards(filtered);
+  }
 }
 
 function sortItems(items) {
@@ -198,13 +245,21 @@ function renderGrid(items) {
       <td style="font-size:13px;color:#374151;">${publishDisplay}</td>
       <td><div class="social-icons">${socialIcons(it.social)}</div></td>
       <td class="controls">
-        <button class="btnEdit">View/Edit</button>
+        <button class="btnEdit btn-primary">✏️ Edit</button>
+        <button class="btnDelete btn-delete-content">🗑️ Delete</button>
       </td>
     `;
-    // Wire
+    
+    // Wire Edit button
     tr.querySelector('.btnEdit').addEventListener('click', async ()=>{
       await openEditor(it);
     });
+    
+    // Wire Delete button
+    tr.querySelector('.btnDelete').addEventListener('click', async ()=>{
+      await deleteContent(it);
+    });
+    
     tr.querySelectorAll('.social-icon').forEach(el => {
       el.addEventListener('click', async () => {
         const key = el.getAttribute('data-key');
@@ -227,6 +282,80 @@ function renderGrid(items) {
   }
 }
 
+function renderCards(items) {
+  const container = $('#gridView');
+  container.innerHTML = '';
+  
+  for (const it of items) {
+    const card = document.createElement('div');
+    card.className = 'content-card';
+    
+    // Format dates
+    const createdDisplay = it.createdDate ? formatDate(it.createdDate) : '—';
+    const publishDisplay = it.publishDate ? formatDate(it.publishDate) : '—';
+    
+    const thumbHTML = it.thumb 
+      ? `<img class="card-thumbnail" src="${it.thumb}" alt="${it.title}" />` 
+      : `<div class="card-thumbnail">No Thumbnail</div>`;
+    
+    card.innerHTML = `
+      ${thumbHTML}
+      <div class="card-type-badge">${typeBadge(it.type)}</div>
+      <div class="card-content">
+        <div class="card-header">
+          <div class="card-title">${it.title}</div>
+          <div class="card-score">${scoreBadge(it.score)}</div>
+        </div>
+        <div class="card-meta">
+          ${it.topic ? `<div class="card-meta-row">📁 ${it.topic}</div>` : ''}
+          <div class="card-meta-row">📅 Created: ${createdDisplay}</div>
+          <div class="card-meta-row">🚀 Publish: ${publishDisplay}</div>
+        </div>
+        <div class="card-status">${statusPill(it.status)}</div>
+        <div class="card-social">${socialIcons(it.social)}</div>
+        <div class="card-actions">
+          <button class="btnEdit btn-edit">✏️ Edit</button>
+          <button class="btnDelete btn-delete-content">🗑️</button>
+        </div>
+      </div>
+    `;
+    
+    // Wire Edit button
+    card.querySelector('.btnEdit').addEventListener('click', async () => {
+      await openEditor(it);
+    });
+    
+    // Wire Delete button
+    card.querySelector('.btnDelete').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      await deleteContent(it);
+    });
+    
+    card.querySelectorAll('.social-icon').forEach(el => {
+      el.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const key = el.getAttribute('data-key');
+        const current = !!(it.social && it.social[key]);
+        const next = !current;
+        const social = Object.assign({}, it.social, { [key]: next });
+        await window.ChannelAPI.updateSocial(it.path, it.type, social);
+        refresh();
+      });
+    });
+    
+    card.querySelector('.status-pill').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const currentIdx = statuses.indexOf(it.status);
+      const nextIdx = (currentIdx + 1) % statuses.length;
+      const nextStatus = statuses[nextIdx];
+      await window.ChannelAPI.updateStatus(it.path, it.type, nextStatus);
+      refresh();
+    });
+    
+    container.appendChild(card);
+  }
+}
+
 function formatDate(dateStr) {
   if (!dateStr) return '—';
   const date = new Date(dateStr + 'T00:00:00');
@@ -241,6 +370,48 @@ async function refresh() {
   allItems = await window.ChannelAPI.listPackages();
   renderSummary(allItems);
   filterItems();
+}
+
+async function deleteContent(pkg) {
+  const typeLabel = pkg.type === 'video' ? 'video' : 'short';
+  const confirmMessage = `⚠️ DELETE ${typeLabel.toUpperCase()}?
+
+Title: "${pkg.title}"
+Type: ${typeLabel}
+
+This action will permanently delete:
+• The complete content folder
+• All files (script, description, tags, etc.)
+• Thumbnail and raw files
+• This action CANNOT be undone
+
+Are you sure you want to delete this ${typeLabel}?`;
+
+  if (!confirm(confirmMessage)) {
+    return;
+  }
+
+  // Second confirmation for safety
+  const doubleConfirm = confirm(`🚨 FINAL CONFIRMATION\n\nDo you REALLY want to delete "${pkg.title}"?\n\nThis is your last chance to cancel.`);
+  
+  if (!doubleConfirm) {
+    return;
+  }
+
+  try {
+    // Check if the API has a delete function
+    if (window.ChannelAPI.deletePackage) {
+      await window.ChannelAPI.deletePackage(pkg.path, pkg.type);
+      alert(`✅ ${typeLabel === 'video' ? 'Video' : 'Short'} deleted successfully!\n\n"${pkg.title}" has been deleted.`);
+      refresh();
+    } else {
+      // Fallback: show instructions for manual deletion
+      const slug = pkg.path.split('\\').pop().split('/').pop();
+      alert(`⚠️ Delete function not available in this version.\n\nTo delete this content manually:\n\n1. Open folder: content/${pkg.type}s/\n2. Delete folder: ${slug}\n3. Press the "Refresh" button to update`);
+    }
+  } catch (error) {
+    alert(`❌ Error deleting:\n\n${error.message}\n\nPlease try again or delete the folder manually.`);
+  }
 }
 
 async function openEditor(pkg) {
@@ -320,6 +491,8 @@ function wireTabs() {
 }
 
 function wireHeader() {
+  $('#btnThemeToggle').addEventListener('click', toggleTheme);
+  
   $('#btnHelp').addEventListener('click', () => {
     const helpText = `⌨️ KEYBOARD SHORTCUTS
 
@@ -327,6 +500,7 @@ function wireHeader() {
 • Ctrl/Cmd + R → Refresh content
 • Ctrl/Cmd + F → Focus search
 • Ctrl/Cmd + D → Go to Dashboard tab
+• Ctrl/Cmd + T → Toggle Dark/Light theme
 
 ✏️ Navigation:
 • Ctrl/Cmd + N → Create new content
@@ -336,24 +510,32 @@ function wireHeader() {
 • Click Status Pills → Cycle through statuses
 • Click Social Icons → Toggle platforms
 • Click Type Badges → Visual type identification
+• Toggle between Table and Grid views
 
 💡 TIPS:
 • Search filters by title, topic, or status
 • Use dropdowns to filter by type or status
 • Thumbnails update automatically after upload
-• Checklist items are markdown compatible`;
+• Checklist items are markdown compatible
+• Dark mode is preserved between sessions`;
     
     alert(helpText);
   });
+  
   $('#btnCreateChannel').addEventListener('click', async () => {
     const result = await window.ChannelAPI.createChannel();
     if (result) {
       alert(`Channel created successfully at:\n${result}\n\nRun Youtubator.bat (or .sh/.command) in that folder to start managing content.`);
     }
   });
+  
   $('#btnRefresh').addEventListener('click', refresh);
   $('#btnBuildDash').addEventListener('click', async ()=>{ await window.ChannelAPI.buildDashboard(); alert('Dashboard rebuilt'); });
   $('#btnOpenDash').addEventListener('click', async ()=>{ await window.ChannelAPI.openDashboard(); });
+  
+  // View toggle buttons
+  $('#viewTable').addEventListener('click', () => switchView('table'));
+  $('#viewGrid').addEventListener('click', () => switchView('grid'));
 }
 
 function wireEditor() {
@@ -565,6 +747,7 @@ function getChecklistText() {
 }
 
 (function init(){
+  initTheme(); // Initialize theme first
   wireTabs();
   wireHeader();
   wireEditor();
@@ -603,6 +786,11 @@ function getChecklistText() {
     if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
       e.preventDefault();
       $('[data-tab="dashboard"]').click();
+    }
+    // Ctrl/Cmd + T: Toggle theme
+    if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+      e.preventDefault();
+      toggleTheme();
     }
     // Escape: Close editor if open
     if (e.key === 'Escape' && $('#tab-editor').classList.contains('active')) {
